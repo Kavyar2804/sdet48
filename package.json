@@ -1,0 +1,27 @@
+{
+  "name": "my-new-project",
+  "type": "module",
+  "devDependencies": {
+    "@wdio/allure-reporter": "^8.11.0",
+    "@wdio/cli": "^8.11.2",
+    "@wdio/local-runner": "^8.11.2",
+    "@wdio/mocha-framework": "^8.11.0",
+    "@wdio/selenium-standalone-service": "^8.11.0",
+    "@wdio/spec-reporter": "^8.11.2",
+    "and": "^0.0.3",
+    "chromedriver": "^114.0.2",
+    "install": "^0.13.0",
+    "npm": "^9.7.2",
+    "wdio-chromedriver-service": "^8.1.1"
+  },
+  "scripts": {
+    "wdio": "wdio run ./wdio.conf.js",
+    "suite": "npx wdio run ./wdio.conf.js --suite regression",
+    "stflogin": "npx wdio run ./wdio.conf.js --spec test/specs/stfflogin.js "
+  },
+  "dependencies": {
+    "chai": "^4.3.7",
+    "dependencies": "^0.0.1",
+    "exceljs": "^4.3.0"
+  }
+}

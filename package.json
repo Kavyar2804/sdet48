@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "chai": "^4.3.7",
+    "chrome-launcher": "^0.15.2",
     "dependencies": "^0.0.1",
     "exceljs": "^4.3.0"
   }

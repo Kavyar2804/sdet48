@@ -62,8 +62,8 @@ export const config = {
     capabilities: [
         {
         // capabilities for local browser web tests
-        browserName: 'chrome' // or "firefox", "microsoftedge", "safari"
-        // maxInstances: 1,
+        browserName: 'chrome',// or "firefox", "microsoftedge", "safari"
+        maxInstances: 1,
         //acceptInsecureCerts: true,
      }
     // {
@@ -176,8 +176,10 @@ export const config = {
      * @param {object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-    // onPrepare: function (config, capabilities) {
-    // },
+    onPrepare: function (config, capabilities) {
+        console.log('********Connection to DB************');
+
+    },
     /**
      * Gets executed before a worker process is spawned and can be used to initialise specific service
      * for that worker as well as modify runtime environments in an async fashion.
@@ -206,8 +208,12 @@ export const config = {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      * @param {string} cid worker id (e.g. 0-0)
      */
-    // beforeSession: function (config, capabilities, specs, cid) {
-    // },
+    beforeSession: async function (config, capabilities, specs, cid) {
+      
+        // await browser.url('https://www.google.com') //if you write here it will throw browser is not a function
+        // await browser.maximizeWindow()
+
+    },
     /**
      * Gets executed before test execution begins. At this point you can access to all global
      * variables like `browser`. It is the perfect place to define custom commands.
@@ -215,8 +221,11 @@ export const config = {
      * @param {Array.<String>} specs        List of spec file paths that are to be run
      * @param {object}         browser      instance of created browser/device session
      */
-    before: function (capabilities, specs) {
+    before: async function (capabilities, specs) {
         global.expect=expect
+        console.log('********Launch browser*********');
+        await browser.url('https://www.google.com')
+        await browser.maximizeWindow()
 
     },
     /**
@@ -298,8 +307,10 @@ export const config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that ran
      */
-    // afterSession: function (config, capabilities, specs) {
-    // },
+    afterSession: async function (config, capabilities, specs) {
+        await browser.closeWindow()
+
+    },
     /**
      * Gets executed after all workers got shut down and the process is about to exit. An error
      * thrown in the onComplete hook will result in the test run failing.
@@ -308,8 +319,9 @@ export const config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {<Object>} results object containing test results
      */
-    // onComplete: function(exitCode, config, capabilities, results) {
-    // },
+    onComplete: function(exitCode, config, capabilities, results) {
+        console.log('******close DB*****');
+    },
     /**
     * Gets executed when a refresh happens.
     * @param {string} oldSessionId session ID of the old session

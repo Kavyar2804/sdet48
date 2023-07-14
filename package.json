@@ -20,13 +20,8 @@
   },
   "dependencies": {
     "allure-commandline": "^2.23.0",
+    "capture-stack-trace": "^2.1.0",
     "chai": "^4.3.7",
-   
     "exceljs": "^4.3.0"
-   
-
-
-    
   }
 }
-

@@ -1,1 +1,1 @@
-{"total":1,"items":[{"uid":"da0af2d9cf0459401f6e6639239fbbb3","name":"trail","statistic":{"failed":0,"broken":0,"skipped":0,"passed":2,"unknown":0,"total":2}}]}
+{"total":2,"items":[{"uid":"f1e266904b4008a630470c767b75e4c4","name":"readdata","statistic":{"failed":0,"broken":2,"skipped":0,"passed":0,"unknown":0,"total":2}},{"uid":"da0af2d9cf0459401f6e6639239fbbb3","name":"trail","statistic":{"failed":0,"broken":0,"skipped":0,"passed":2,"unknown":0,"total":2}}]}

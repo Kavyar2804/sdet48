@@ -1,2 +1,3 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"broken","Wed Jun 28 15:39:05 IST 2023","Wed Jun 28 15:39:09 IST 2023","4462","","Login to application smoke","","","","Login to application",""
+"passed","Fri Jul 14 12:01:38 IST 2023","Fri Jul 14 12:01:38 IST 2023","8","","trail","","","","newtrail smoke",""
+"passed","Fri Jul 14 12:01:38 IST 2023","Fri Jul 14 12:01:38 IST 2023","3","","trail","","","","newsmoke",""

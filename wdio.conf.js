@@ -1,4 +1,7 @@
 import { expect } from "chai"
+import data from "./cred.js"
+import {series} from 'async'
+import {execSync} from 'child_process'
 
 export const config = {
     //
@@ -85,7 +88,7 @@ export const config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'info',
+    logLevel: 'error',
     //
     // Set specific log levels per logger
     // loggers:
@@ -177,7 +180,7 @@ export const config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      */
     onPrepare: function (config, capabilities) {
-        console.log('********Connection to DB************');
+        console.log('********onprepare************');
 
     },
     /**
@@ -189,8 +192,10 @@ export const config = {
      * @param  {object} args     object that will be merged with the main configuration once worker is initialized
      * @param  {object} execArgv list of string arguments passed to the worker process
      */
-    // onWorkerStart: function (cid, caps, specs, args, execArgv) {
-    // },
+    onWorkerStart: function (cid, caps, specs, args, execArgv) {
+        console.log('********onworkerstart************');
+        data.password
+    },
     /**
      * Gets executed just after a worker process has exited.
      * @param  {string} cid      capability id (e.g 0-0)
@@ -198,8 +203,10 @@ export const config = {
      * @param  {object} specs    specs to be run in the worker process
      * @param  {number} retries  number of retries used
      */
-    // onWorkerEnd: function (cid, exitCode, specs, retries) {
-    // },
+    onWorkerEnd: function (cid, exitCode, specs, retries) {
+        console.log('********onworkerend************');
+        series([()=>execSync('npx allure generate allure-results --clean && npx allure open')])
+    },
     /**
      * Gets executed just before initialising the webdriver session and test framework. It allows you
      * to manipulate configurations depending on the capability or spec.
@@ -212,6 +219,7 @@ export const config = {
       
         // await browser.url('https://www.google.com') //if you write here it will throw browser is not a function
         // await browser.maximizeWindow()
+        console.log('*******before session');
 
     },
     /**
@@ -223,9 +231,10 @@ export const config = {
      */
     before: async function (capabilities, specs) {
         global.expect=expect
-        console.log('********Launch browser*********');
-        await browser.url('https://www.google.com')
-        await browser.maximizeWindow()
+        //global.allureReporter=AllureReporter
+        console.log('********before*********');
+        // await browser.url('https://www.google.com')
+        // await browser.maximizeWindow()
 
     },
     /**
@@ -233,31 +242,37 @@ export const config = {
      * @param {string} commandName hook command name
      * @param {Array} args arguments that command would receive
      */
-    // beforeCommand: function (commandName, args) {
-    // },
+    beforeCommand: function (commandName, args) {
+        console.log('*****before command');
+    },
     /**
      * Hook that gets executed before the suite starts
      * @param {object} suite suite details
      */
-    // beforeSuite: function (suite) {
-    // },
+    beforeSuite: function (suite) {
+        console.log('******before suite****');
+    },
     /**
      * Function to be executed before a test (in Mocha/Jasmine) starts.
      */
-    // beforeTest: function (test, context) {
-    // },
+    beforeTest: function (test, context) {
+        console.log('******before test*****');
+    },
     /**
      * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
      * beforeEach in Mocha)
      */
-    // beforeHook: function (test, context) {
-    // },
+    beforeHook: function (test, context) {
+
+        console.log('*******before hook*****');
+    },
     /**
      * Hook that gets executed _after_ a hook within the suite starts (e.g. runs after calling
      * afterEach in Mocha)
      */
-    // afterHook: function (test, context, { error, result, duration, passed, retries }) {
-    // },
+    afterHook: function (test, context, { error, result, duration, passed, retries }) {
+        console.log('*******after hook*******');
+    },
     /**
      * Function to be executed after a test (in Mocha/Jasmine only)
      * @param {object}  test             test object
@@ -273,7 +288,10 @@ export const config = {
         if(error)
         {
             await browser.takeScreenshot()
+            
         }
+
+        console.log('********after test*******');
     },
 
 
@@ -281,8 +299,9 @@ export const config = {
      * Hook that gets executed after the suite has ended
      * @param {object} suite suite details
      */
-    // afterSuite: function (suite) {
-    // },
+    afterSuite: function (suite) {
+        console.log('********after suite********');
+    },
     /**
      * Runs after a WebdriverIO command gets executed
      * @param {string} commandName hook command name
@@ -290,8 +309,9 @@ export const config = {
      * @param {number} result 0 - command success, 1 - command error
      * @param {object} error error object if any
      */
-    // afterCommand: function (commandName, args, result, error) {
-    // },
+    afterCommand: function (commandName, args, result, error) {
+        console.log('*****after command*******');
+    },
     /**
      * Gets executed after all tests are done. You still have access to all global variables from
      * the test.
@@ -299,8 +319,11 @@ export const config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that ran
      */
-    // after: function (result, capabilities, specs) {
-    // },
+    after: function (result, capabilities, specs) {
+        console.log('*****after*****');
+        
+
+    },
     /**
      * Gets executed right after terminating the webdriver session.
      * @param {object} config wdio configuration object
@@ -308,7 +331,8 @@ export const config = {
      * @param {Array.<String>} specs List of spec file paths that ran
      */
     afterSession: async function (config, capabilities, specs) {
-        await browser.closeWindow()
+        // await browser.closeWindow()
+        console.log('******** after session******');
 
     },
     /**
@@ -319,14 +343,18 @@ export const config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {<Object>} results object containing test results
      */
-    onComplete: function(exitCode, config, capabilities, results) {
-        console.log('******close DB*****');
+    onComplete: async function(exitCode, config, capabilities, results) {
+        console.log('******on complete*****');
+        
+
     },
     /**
     * Gets executed when a refresh happens.
     * @param {string} oldSessionId session ID of the old session
     * @param {string} newSessionId session ID of the new session
     */
-    // onReload: function(oldSessionId, newSessionId) {
-    // }
+    onReload: function(oldSessionId, newSessionId) {
+
+        console.log('*****on reload*******');
+    }
 }

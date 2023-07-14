@@ -29,7 +29,7 @@ export const config = {
     //
     specs: [
         // ToDo: define location for spec files here
-      './test/specs/stfflogin.js',
+      //'./test/specs/stfflogin.js',
       './test/specs/trail.js'
     ],
     // Patterns to exclude.

@@ -20,7 +20,5 @@ class Stafflgnpage
         await this.pwdtxtfild.setValue(pwd)
         await this.lgnbtn.click()
     }
-
 }
-
 export default new Stafflgnpage()
